@@ -22,7 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-*.md*
 
 # Testing & Dummy Data Files (Local Development Only)
 api-tests.json
@@ -30,8 +29,7 @@ Postman-Collection.json
 JSON-CONTOH-REQUEST.js
 API-TESTING-GUIDE.md
 dummy-data.json
-DUMMY-DATA-README.md
-DUMMY-DATA-SUMMARY.md
+DUMMY-DATA-*.md
 DATA-VISUALIZATION.md
 00-INDEX-FILES.md
 FINAL-SUMMARY.md
