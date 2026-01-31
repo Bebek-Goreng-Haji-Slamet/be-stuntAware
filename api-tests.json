@@ -1,0 +1,623 @@
+{
+    "info": {
+        "name": "StuntAware API Tests",
+        "description": "Koleksi testing untuk API Stunting Prevention",
+        "version": "1.0.0"
+    },
+    "baseUrl": "http://localhost:8000/api",
+    "tests": {
+        "health": {
+            "endpoint": "GET /health",
+            "url": "http://localhost:8000/api/health",
+            "description": "Cek kesehatan API",
+            "response": {
+                "status": 200,
+                "body": {
+                    "status": "ok",
+                    "service": "Stunting Prevention API"
+                }
+            }
+        },
+        "auth": {
+            "register": {
+                "endpoint": "POST /auth/register",
+                "url": "http://localhost:8000/api/auth/register",
+                "method": "POST",
+                "description": "Registrasi user baru",
+                "request": {
+                    "name": "John Doe",
+                    "email": "john@example.com",
+                    "password": "password123",
+                    "password_confirmation": "password123"
+                },
+                "response": {
+                    "status": 201,
+                    "body": {
+                        "message": "User registered successfully",
+                        "data": {
+                            "id": 1,
+                            "name": "John Doe",
+                            "email": "john@example.com"
+                        },
+                        "token": "token_string"
+                    }
+                }
+            },
+            "login": {
+                "endpoint": "POST /auth/login",
+                "url": "http://localhost:8000/api/auth/login",
+                "method": "POST",
+                "description": "Login user",
+                "request": {
+                    "email": "john@example.com",
+                    "password": "password123"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Logged in successfully",
+                        "data": {
+                            "id": 1,
+                            "name": "John Doe",
+                            "email": "john@example.com"
+                        },
+                        "token": "token_string"
+                    }
+                }
+            },
+            "me": {
+                "endpoint": "GET /auth/me",
+                "url": "http://localhost:8000/api/auth/me",
+                "method": "GET",
+                "description": "Dapatkan data user yang sedang login",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "id": 1,
+                            "name": "John Doe",
+                            "email": "john@example.com",
+                            "created_at": "2026-01-31T00:00:00Z"
+                        }
+                    }
+                }
+            },
+            "logout": {
+                "endpoint": "POST /auth/logout",
+                "url": "http://localhost:8000/api/auth/logout",
+                "method": "POST",
+                "description": "Logout user",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Logged out successfully"
+                    }
+                }
+            }
+        },
+        "children": {
+            "list": {
+                "endpoint": "GET /children",
+                "url": "http://localhost:8000/api/children",
+                "method": "GET",
+                "description": "Daftar semua anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": [
+                            {
+                                "id": 1,
+                                "name": "Amir",
+                                "gender": "male",
+                                "birth_date": "2023-06-15",
+                                "birth_weight": 3.5,
+                                "birth_height": 50.2,
+                                "age_in_months": 19,
+                                "age_in_years": 1
+                            }
+                        ]
+                    }
+                }
+            },
+            "create": {
+                "endpoint": "POST /children",
+                "url": "http://localhost:8000/api/children",
+                "method": "POST",
+                "description": "Tambah data anak baru",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "request": {
+                    "name": "Amir",
+                    "gender": "male",
+                    "birth_date": "2023-06-15",
+                    "birth_weight": 3.5,
+                    "birth_height": 50.2
+                },
+                "response": {
+                    "status": 201,
+                    "body": {
+                        "message": "Child created successfully",
+                        "data": {
+                            "id": 1,
+                            "user_id": 1,
+                            "name": "Amir",
+                            "gender": "male",
+                            "birth_date": "2023-06-15",
+                            "birth_weight": "3.50",
+                            "birth_height": "50.20",
+                            "age_in_months": 19,
+                            "age_in_years": 1
+                        }
+                    }
+                }
+            },
+            "show": {
+                "endpoint": "GET /children/{id}",
+                "url": "http://localhost:8000/api/children/1",
+                "method": "GET",
+                "description": "Detail data anak spesifik",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "id": 1,
+                            "name": "Amir",
+                            "gender": "male",
+                            "birth_date": "2023-06-15",
+                            "birth_weight": "3.50",
+                            "birth_height": "50.20",
+                            "age_in_months": 19,
+                            "age_in_years": 1
+                        }
+                    }
+                }
+            },
+            "update": {
+                "endpoint": "PUT /children/{id}",
+                "url": "http://localhost:8000/api/children/1",
+                "method": "PUT",
+                "description": "Update data anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "request": {
+                    "name": "Amir Updated",
+                    "gender": "male",
+                    "birth_date": "2023-06-15"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Child updated successfully",
+                        "data": {
+                            "id": 1,
+                            "name": "Amir Updated",
+                            "gender": "male",
+                            "birth_date": "2023-06-15"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "endpoint": "DELETE /children/{id}",
+                "url": "http://localhost:8000/api/children/1",
+                "method": "DELETE",
+                "description": "Hapus data anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Child deleted successfully"
+                    }
+                }
+            }
+        },
+        "growthRecords": {
+            "list": {
+                "endpoint": "GET /children/{childId}/growth",
+                "url": "http://localhost:8000/api/children/1/growth",
+                "method": "GET",
+                "description": "Daftar semua catatan pertumbuhan anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": [
+                            {
+                                "id": 1,
+                                "child_id": 1,
+                                "measurement_date": "2026-01-15",
+                                "age_in_months": 19,
+                                "weight": 11.5,
+                                "height": 82.3,
+                                "head_circumference": 48.2,
+                                "weight_for_age_zscore": -0.5,
+                                "height_for_age_zscore": -1.2,
+                                "weight_for_height_zscore": 0.3,
+                                "stunting_status": "at_risk",
+                                "wasting_status": "normal",
+                                "underweight_status": "normal",
+                                "ai_analysis": "Anak menunjukkan tanda-tanda risiko stunting...",
+                                "recommendations": "Tingkatkan asupan nutrisi..."
+                            }
+                        ]
+                    }
+                }
+            },
+            "create": {
+                "endpoint": "POST /children/{childId}/growth",
+                "url": "http://localhost:8000/api/children/1/growth",
+                "method": "POST",
+                "description": "Tambah catatan pertumbuhan anak baru",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "request": {
+                    "measurement_date": "2026-01-15",
+                    "age_in_months": 19,
+                    "weight": 11.5,
+                    "height": 82.3,
+                    "head_circumference": 48.2
+                },
+                "response": {
+                    "status": 201,
+                    "body": {
+                        "message": "Growth record created successfully",
+                        "data": {
+                            "id": 1,
+                            "child_id": 1,
+                            "measurement_date": "2026-01-15",
+                            "age_in_months": 19,
+                            "weight": "11.50",
+                            "height": "82.30",
+                            "head_circumference": "48.20",
+                            "weight_for_age_zscore": "-0.50",
+                            "height_for_age_zscore": "-1.20",
+                            "weight_for_height_zscore": "0.30",
+                            "stunting_status": "at_risk",
+                            "wasting_status": "normal",
+                            "underweight_status": "normal"
+                        }
+                    }
+                }
+            },
+            "show": {
+                "endpoint": "GET /children/{childId}/growth/{recordId}",
+                "url": "http://localhost:8000/api/children/1/growth/1",
+                "method": "GET",
+                "description": "Detail catatan pertumbuhan spesifik",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "id": 1,
+                            "child_id": 1,
+                            "measurement_date": "2026-01-15",
+                            "weight": "11.50",
+                            "height": "82.30"
+                        }
+                    }
+                }
+            },
+            "trend": {
+                "endpoint": "GET /children/{childId}/growth/trend",
+                "url": "http://localhost:8000/api/children/1/growth/trend",
+                "method": "GET",
+                "description": "Tren pertumbuhan anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "weight_trend": "increasing",
+                            "height_trend": "normal",
+                            "latest_measurements": {
+                                "weight": "11.50",
+                                "height": "82.30"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "endpoint": "DELETE /children/{childId}/growth/{recordId}",
+                "url": "http://localhost:8000/api/children/1/growth/1",
+                "method": "DELETE",
+                "description": "Hapus catatan pertumbuhan",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Growth record deleted successfully"
+                    }
+                }
+            }
+        },
+        "nutritionRecords": {
+            "list": {
+                "endpoint": "GET /children/{childId}/nutrition",
+                "url": "http://localhost:8000/api/children/1/nutrition",
+                "method": "GET",
+                "description": "Daftar semua catatan nutrisi anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": [
+                            {
+                                "id": 1,
+                                "child_id": 1,
+                                "meal_date": "2026-01-15",
+                                "meal_type": "breakfast",
+                                "food_name": "Nasi kuning",
+                                "portion_size": 100,
+                                "calories": 130,
+                                "protein": 2.5,
+                                "carbohydrates": 28,
+                                "fat": 0.3,
+                                "fiber": 0.5,
+                                "calcium": 6,
+                                "iron": 0.8,
+                                "zinc": 1.5,
+                                "vitamin_a": 55,
+                                "vitamin_c": 0,
+                                "vitamin_d": 0
+                            }
+                        ]
+                    }
+                }
+            },
+            "create": {
+                "endpoint": "POST /children/{childId}/nutrition",
+                "url": "http://localhost:8000/api/children/1/nutrition",
+                "method": "POST",
+                "description": "Tambah catatan nutrisi anak dari database makanan",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "request": {
+                    "meal_date": "2026-01-15",
+                    "meal_type": "breakfast",
+                    "food_name": "Nasi kuning",
+                    "portion_size": 100
+                },
+                "response": {
+                    "status": 201,
+                    "body": {
+                        "message": "Nutrition record created successfully",
+                        "data": {
+                            "id": 1,
+                            "child_id": 1,
+                            "meal_date": "2026-01-15",
+                            "meal_type": "breakfast",
+                            "food_name": "Nasi kuning",
+                            "portion_size": "100.00",
+                            "calories": "130.00",
+                            "protein": "2.50"
+                        }
+                    }
+                }
+            },
+            "createCustom": {
+                "endpoint": "POST /children/{childId}/nutrition/custom",
+                "url": "http://localhost:8000/api/children/1/nutrition/custom",
+                "method": "POST",
+                "description": "Tambah catatan nutrisi custom (input manual)",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "request": {
+                    "meal_date": "2026-01-15",
+                    "meal_type": "lunch",
+                    "food_name": "Makanan Custom",
+                    "portion_size": 150,
+                    "calories": 250,
+                    "protein": 10,
+                    "carbohydrates": 35,
+                    "fat": 5,
+                    "fiber": 2,
+                    "calcium": 120,
+                    "iron": 2,
+                    "zinc": 1.5,
+                    "vitamin_a": 500,
+                    "vitamin_c": 30,
+                    "vitamin_d": 5,
+                    "notes": "Makanan lokal pilihan"
+                },
+                "response": {
+                    "status": 201,
+                    "body": {
+                        "message": "Custom nutrition record created successfully",
+                        "data": {
+                            "id": 2,
+                            "meal_date": "2026-01-15",
+                            "food_name": "Makanan Custom",
+                            "calories": "250.00",
+                            "protein": "10.00"
+                        }
+                    }
+                }
+            },
+            "dailySummary": {
+                "endpoint": "GET /children/{childId}/nutrition/summary",
+                "url": "http://localhost:8000/api/children/1/nutrition/summary",
+                "method": "GET",
+                "description": "Ringkasan nutrisi harian",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "queryParams": {
+                    "date": "2026-01-15"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "date": "2026-01-15",
+                            "total_meals": 3,
+                            "total_calories": 1200,
+                            "total_protein": 35,
+                            "total_carbohydrates": 160,
+                            "total_fat": 30,
+                            "meals": [
+                                {
+                                    "meal_type": "breakfast",
+                                    "calories": 300
+                                },
+                                {
+                                    "meal_type": "lunch",
+                                    "calories": 500
+                                },
+                                {
+                                    "meal_type": "dinner",
+                                    "calories": 400
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "nutritionalNeeds": {
+                "endpoint": "GET /children/{childId}/nutrition/needs",
+                "url": "http://localhost:8000/api/children/1/nutrition/needs",
+                "method": "GET",
+                "description": "Kebutuhan nutrisi anak berdasarkan usia",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "age_in_months": 19,
+                            "recommended_calories": 1200,
+                            "recommended_protein": 30,
+                            "recommended_carbohydrates": 160,
+                            "recommended_fat": 40,
+                            "recommended_calcium": 500,
+                            "recommended_iron": 6,
+                            "recommended_zinc": 3
+                        }
+                    }
+                }
+            },
+            "recommendations": {
+                "endpoint": "GET /children/{childId}/nutrition/recommendations",
+                "url": "http://localhost:8000/api/children/1/nutrition/recommendations",
+                "method": "GET",
+                "description": "Rekomendasi nutrisi dan makanan untuk anak",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": {
+                            "age_group": "toddler",
+                            "status": "at_risk",
+                            "recommendations": [
+                                "Tingkatkan asupan protein dari daging, telur, dan kacang-kacangan",
+                                "Berikan makanan bergizi tinggi 3-4 kali sehari",
+                                "Hindari makanan berlemak berlebih"
+                            ],
+                            "suggested_foods": [
+                                "Daging ayam",
+                                "Telur",
+                                "Ikan",
+                                "Kacang-kacangan",
+                                "Buah-buahan segar"
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "endpoint": "DELETE /children/{childId}/nutrition/{recordId}",
+                "url": "http://localhost:8000/api/children/1/nutrition/1",
+                "method": "DELETE",
+                "description": "Hapus catatan nutrisi",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "message": "Nutrition record deleted successfully"
+                    }
+                }
+            }
+        },
+        "foods": {
+            "search": {
+                "endpoint": "GET /foods/search",
+                "url": "http://localhost:8000/api/foods/search",
+                "method": "GET",
+                "description": "Cari makanan dari database",
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "queryParams": {
+                    "q": "nasi",
+                    "limit": 10
+                },
+                "response": {
+                    "status": 200,
+                    "body": {
+                        "data": [
+                            {
+                                "id": 1,
+                                "name": "Nasi kuning",
+                                "calories_per_100g": 130,
+                                "protein_per_100g": 2.5,
+                                "carbohydrates_per_100g": 28,
+                                "fat_per_100g": 0.3
+                            },
+                            {
+                                "id": 2,
+                                "name": "Nasi merah",
+                                "calories_per_100g": 111,
+                                "protein_per_100g": 2.6,
+                                "carbohydrates_per_100g": 24,
+                                "fat_per_100g": 0.9
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "examples": {
+        "curl_health": "curl -X GET 'http://localhost:8000/api/health'",
+        "curl_register": "curl -X POST 'http://localhost:8000/api/auth/register' -H 'Content-Type: application/json' -d '{\"name\":\"John\",\"email\":\"john@example.com\",\"password\":\"password123\",\"password_confirmation\":\"password123\"}'",
+        "curl_login": "curl -X POST 'http://localhost:8000/api/auth/login' -H 'Content-Type: application/json' -d '{\"email\":\"john@example.com\",\"password\":\"password123\"}'",
+        "curl_create_child": "curl -X POST 'http://localhost:8000/api/children' -H 'Authorization: Bearer {token}' -H 'Content-Type: application/json' -d '{\"name\":\"Amir\",\"gender\":\"male\",\"birth_date\":\"2023-06-15\",\"birth_weight\":3.5,\"birth_height\":50.2}'",
+        "curl_create_growth_record": "curl -X POST 'http://localhost:8000/api/children/1/growth' -H 'Authorization: Bearer {token}' -H 'Content-Type: application/json' -d '{\"measurement_date\":\"2026-01-15\",\"age_in_months\":19,\"weight\":11.5,\"height\":82.3,\"head_circumference\":48.2}'",
+        "curl_create_nutrition_record": "curl -X POST 'http://localhost:8000/api/children/1/nutrition' -H 'Authorization: Bearer {token}' -H 'Content-Type: application/json' -d '{\"meal_date\":\"2026-01-15\",\"meal_type\":\"breakfast\",\"food_name\":\"Nasi kuning\",\"portion_size\":100}'"
+    }
+}

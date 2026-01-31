@@ -1,0 +1,380 @@
+// CONTOH REQUEST BODY UNTUK SETIAP ENDPOINT
+
+// 1. AUTHENTICATION
+
+// Register - POST /api/auth/register
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+// Login - POST /api/auth/login
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+// Response Login (simpan token ini):
+{
+  "message": "Logged in successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "created_at": "2026-01-31T10:30:00Z"
+  },
+  "token": "1|abcdefghijklmnopqrstuvwxyz123456"
+}
+
+
+// 2. CHILDREN MANAGEMENT
+
+// Create Child - POST /api/children
+{
+  "name": "Amir",
+  "gender": "male",
+  "birth_date": "2023-06-15",
+  "birth_weight": 3.5,
+  "birth_height": 50.2
+}
+
+// Response Create Child:
+{
+  "message": "Child created successfully",
+  "data": {
+    "id": 1,
+    "user_id": 1,
+    "name": "Amir",
+    "gender": "male",
+    "birth_date": "2023-06-15",
+    "birth_weight": "3.50",
+    "birth_height": "50.20",
+    "age_in_months": 19,
+    "age_in_years": 1,
+    "created_at": "2026-01-31T10:30:00Z",
+    "updated_at": "2026-01-31T10:30:00Z"
+  }
+}
+
+// Update Child - PUT /api/children/1
+{
+  "name": "Amir Updated",
+  "gender": "male",
+  "birth_date": "2023-06-15",
+  "birth_weight": 3.5,
+  "birth_height": 50.2
+}
+
+
+// 3. GROWTH RECORDS
+
+// Create Growth Record - POST /api/children/1/growth
+{
+  "measurement_date": "2026-01-15",
+  "age_in_months": 19,
+  "weight": 11.5,
+  "height": 82.3,
+  "head_circumference": 48.2
+}
+
+// Response Growth Record:
+{
+  "message": "Growth record created successfully",
+  "data": {
+    "id": 1,
+    "child_id": 1,
+    "measurement_date": "2026-01-15",
+    "age_in_months": 19,
+    "weight": "11.50",
+    "height": "82.30",
+    "head_circumference": "48.20",
+    "weight_for_age_zscore": "-0.50",
+    "height_for_age_zscore": "-1.20",
+    "weight_for_height_zscore": "0.30",
+    "stunting_status": "at_risk",
+    "wasting_status": "normal",
+    "underweight_status": "normal",
+    "ai_analysis": "Anak menunjukkan tanda-tanda risiko stunting. Tinggi badan di bawah rata-rata untuk usia...",
+    "recommendations": "1. Tingkatkan asupan protein\n2. Berikan makanan bergizi...",
+    "created_at": "2026-01-31T10:30:00Z"
+  }
+}
+
+// Get Growth Trend - Response:
+{
+  "data": {
+    "child_id": 1,
+    "name": "Amir",
+    "weight_trend": "increasing",
+    "height_trend": "normal",
+    "head_circumference_trend": "normal",
+    "latest_measurements": {
+      "measurement_date": "2026-01-15",
+      "weight": "11.50",
+      "height": "82.30",
+      "head_circumference": "48.20"
+    },
+    "trend_data": [
+      {
+        "date": "2025-12-15",
+        "weight": 11.2,
+        "height": 81.5
+      },
+      {
+        "date": "2026-01-15",
+        "weight": 11.5,
+        "height": 82.3
+      }
+    ]
+  }
+}
+
+
+// 4. NUTRITION RECORDS
+
+// Create Nutrition Record - POST /api/children/1/nutrition
+{
+  "meal_date": "2026-01-15",
+  "meal_type": "breakfast",
+  "food_name": "Nasi kuning",
+  "portion_size": 100
+}
+
+// Create Custom Nutrition Record - POST /api/children/1/nutrition/custom
+{
+  "meal_date": "2026-01-15",
+  "meal_type": "lunch",
+  "food_name": "Makanan Lokal Custom",
+  "portion_size": 150,
+  "calories": 250,
+  "protein": 10,
+  "carbohydrates": 35,
+  "fat": 5,
+  "fiber": 2,
+  "calcium": 120,
+  "iron": 2,
+  "zinc": 1.5,
+  "vitamin_a": 500,
+  "vitamin_c": 30,
+  "vitamin_d": 5,
+  "notes": "Makanan tradisional pilihan keluarga"
+}
+
+// Response Nutrition Record:
+{
+  "message": "Nutrition record created successfully",
+  "data": {
+    "id": 1,
+    "child_id": 1,
+    "meal_date": "2026-01-15",
+    "meal_type": "breakfast",
+    "food_name": "Nasi kuning",
+    "portion_size": "100.00",
+    "calories": "130.00",
+    "protein": "2.50",
+    "carbohydrates": "28.00",
+    "fat": "0.30",
+    "fiber": "0.50",
+    "calcium": "6.00",
+    "iron": "0.80",
+    "zinc": "1.50",
+    "vitamin_a": "55.00",
+    "vitamin_c": "0.00",
+    "vitamin_d": "0.00",
+    "notes": null,
+    "created_at": "2026-01-31T10:30:00Z"
+  }
+}
+
+// Get Daily Summary - Response:
+{
+  "data": {
+    "date": "2026-01-15",
+    "child_id": 1,
+    "total_meals": 3,
+    "total_calories": 1200,
+    "total_protein": 35,
+    "total_carbohydrates": 160,
+    "total_fat": 30,
+    "total_fiber": 8,
+    "total_calcium": 600,
+    "total_iron": 8,
+    "total_zinc": 5,
+    "total_vitamin_a": 2000,
+    "total_vitamin_c": 100,
+    "total_vitamin_d": 20,
+    "meals": [
+      {
+        "meal_type": "breakfast",
+        "food_name": "Nasi kuning",
+        "calories": 130,
+        "protein": 2.5
+      },
+      {
+        "meal_type": "lunch",
+        "food_name": "Makanan custom",
+        "calories": 500,
+        "protein": 15
+      },
+      {
+        "meal_type": "dinner",
+        "food_name": "Nasi merah",
+        "calories": 570,
+        "protein": 17.5
+      }
+    ]
+  }
+}
+
+// Get Nutritional Needs - Response:
+{
+  "data": {
+    "age_in_months": 19,
+    "age_group": "toddler",
+    "recommended_calories": 1200,
+    "recommended_protein": 30,
+    "recommended_carbohydrates": 160,
+    "recommended_fat": 40,
+    "recommended_fiber": 5,
+    "recommended_calcium": 500,
+    "recommended_iron": 6,
+    "recommended_zinc": 3,
+    "recommended_vitamin_a": 400,
+    "recommended_vitamin_c": 40,
+    "recommended_vitamin_d": 10,
+    "notes": "Kebutuhan nutrisi untuk anak usia 1-3 tahun"
+  }
+}
+
+// Get Recommendations - Response:
+{
+  "data": {
+    "child_id": 1,
+    "age_group": "toddler",
+    "stunting_status": "at_risk",
+    "wasting_status": "normal",
+    "underweight_status": "normal",
+    "overall_status": "requires_intervention",
+    "recommendations": [
+      "Tingkatkan asupan protein dari daging, telur, dan kacang-kacangan",
+      "Berikan makanan bergizi tinggi 3-4 kali sehari dengan porsi yang tepat",
+      "Hindari makanan berlemak berlebih dan junk food",
+      "Konsumsi buah-buahan segar minimal 2-3 porsi per hari",
+      "Pastikan anak minum susu atau produk susu lainnya",
+      "Kontrol pertumbuhan secara rutin (setiap bulan)"
+    ],
+    "suggested_foods": [
+      {
+        "name": "Daging ayam",
+        "nutrition_type": "protein",
+        "portion": "50-100g per hari"
+      },
+      {
+        "name": "Telur",
+        "nutrition_type": "protein",
+        "portion": "1 butir per hari"
+      },
+      {
+        "name": "Ikan",
+        "nutrition_type": "protein",
+        "portion": "50-100g per hari"
+      },
+      {
+        "name": "Kacang-kacangan",
+        "nutrition_type": "protein",
+        "portion": "50g per hari"
+      },
+      {
+        "name": "Nasi merah",
+        "nutrition_type": "carbohydrates",
+        "portion": "150-200g per hari"
+      },
+      {
+        "name": "Sayuran hijau",
+        "nutrition_type": "vitamins",
+        "portion": "100g per hari"
+      },
+      {
+        "name": "Buah-buahan",
+        "nutrition_type": "vitamins",
+        "portion": "100-150g per hari"
+      }
+    ],
+    "intervention_frequency": "weekly"
+  }
+}
+
+
+// 5. FOODS SEARCH
+
+// Search Foods - Query: ?q=nasi&limit=10
+// Response:
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Nasi putih",
+      "category": "grains",
+      "calories_per_100g": 130,
+      "protein_per_100g": 2.7,
+      "carbohydrates_per_100g": 28,
+      "fat_per_100g": 0.3,
+      "fiber_per_100g": 0.4,
+      "calcium_per_100g": 6,
+      "iron_per_100g": 0.8
+    },
+    {
+      "id": 2,
+      "name": "Nasi merah",
+      "category": "grains",
+      "calories_per_100g": 111,
+      "protein_per_100g": 2.6,
+      "carbohydrates_per_100g": 24,
+      "fat_per_100g": 0.9,
+      "fiber_per_100g": 1.8,
+      "calcium_per_100g": 10,
+      "iron_per_100g": 1.5
+    },
+    {
+      "id": 3,
+      "name": "Nasi kuning",
+      "category": "grains",
+      "calories_per_100g": 130,
+      "protein_per_100g": 2.5,
+      "carbohydrates_per_100g": 28,
+      "fat_per_100g": 0.3,
+      "fiber_per_100g": 0.5,
+      "calcium_per_100g": 6,
+      "iron_per_100g": 0.8
+    }
+  ],
+  "total": 3
+}
+
+
+// STATUS CODES
+
+// 200 - OK
+// 201 - Created
+// 400 - Bad Request
+// 401 - Unauthorized (token tidak valid/expired)
+// 403 - Forbidden (tidak punya akses)
+// 404 - Not Found
+// 422 - Unprocessable Entity (validasi gagal)
+// 500 - Internal Server Error
+
+
+// HEADERS YANG DIPERLUKAN
+
+// Untuk semua request yang memerlukan authentication:
+{
+  "Authorization": "Bearer {token_dari_login}",
+  "Content-Type": "application/json"
+}
+
+// Untuk request tanpa authentication:
+{
+  "Content-Type": "application/json"
+}
